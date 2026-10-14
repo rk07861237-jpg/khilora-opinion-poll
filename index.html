@@ -275,7 +275,7 @@ async function startPoll() {
     console.error(error);
     voteBtn.disabled = true;
     voteBtn.textContent = "Poll unavailable";
-    showMessage("Couldn't connect to Firebase. Please check your Firebase settings and database rules.");
+    showMessage("Firebase error: " + error.code + " — " + error.message);
   }
 }
 
