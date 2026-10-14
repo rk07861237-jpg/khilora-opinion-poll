@@ -3,63 +3,232 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Khilora Community Opinion Poll</title>
+<meta name="theme-color" content="#101b35">
+<title>Khilora Community Poll</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#f3f6fb;color:#172033;font-family:Arial,sans-serif}
-header{background:#173d78;color:white;padding:28px 18px;text-align:center}
-header h1{margin:0 0 10px;font-size:27px}
-header p{margin:0;color:#e1eaff;line-height:1.5}
-main{max-width:680px;margin:24px auto;padding:0 15px}
-.notice,.poll,.results{background:white;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 4px 18px #16294d0d}
-.notice{font-size:13px;line-height:1.6;color:#596579}
-h2{margin:0 0 16px;font-size:21px}
-.candidate{border:1px solid #dce3ee;border-radius:12px;padding:15px;margin:12px 0;display:flex;gap:12px;align-items:center}
-.candidate input{width:19px;height:19px;accent-color:#245bb4}
-.candidate label{flex:1;cursor:pointer}
-.name{font-weight:bold;font-size:16px}
-.village{font-size:13px;color:#68758b;margin-top:5px}
-button{width:100%;padding:14px;border:0;border-radius:10px;background:#245bb4;color:white;font-weight:bold;font-size:16px;cursor:pointer}
-button:disabled{opacity:.55;cursor:wait}
-.secondary{background:#e8eef8;color:#173d78;margin-top:10px}
-.message{font-size:14px;line-height:1.5;margin-top:13px}
-.hidden{display:none}
-.barrow{margin:16px 0}
-.barhead{display:flex;justify-content:space-between;gap:8px;font-size:14px;margin-bottom:7px}
-.track{height:12px;background:#e9edf4;border-radius:20px;overflow:hidden}
-.bar{height:100%;background:#2d68c4;width:0%;transition:width .3s}
-footer{text-align:center;color:#778196;font-size:12px;padding:10px 15px 30px}
+:root {
+  --navy:#101b35;
+  --blue:#315efb;
+  --gold:#f2b84b;
+  --muted:#77839b;
+  --line:#e6eaf2;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:#f3f5fb;
+  color:#17213a;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+button,input { font:inherit; }
+.hero {
+  background:linear-gradient(140deg,#101b35,#1c3569 75%,#315efb);
+  color:white;
+  padding:30px 18px 65px;
+  position:relative;
+  overflow:hidden;
+}
+.hero:before,.hero:after {
+  content:"";
+  position:absolute;
+  border:1px solid #ffffff15;
+  border-radius:50%;
+  width:240px;height:240px;
+  right:-100px;top:-100px;
+}
+.hero:after {
+  width:170px;height:170px;
+  right:-55px;top:-65px;
+}
+.hero-inner,main { max-width:680px;margin:auto; }
+.brand {
+  display:flex;align-items:center;gap:11px;
+  font-size:13px;font-weight:750;letter-spacing:.7px;
+  text-transform:uppercase;color:#e5ebff;
+}
+.brand-icon {
+  width:39px;height:39px;border-radius:13px;
+  background:#ffffff17;display:grid;place-items:center;
+  font-size:21px;border:1px solid #ffffff24;
+}
+.hero h1 {
+  font-size:clamp(29px,7vw,42px);
+  line-height:1.12;letter-spacing:-1.2px;
+  margin:28px 0 12px;max-width:520px;
+}
+.hero p {
+  color:#d0daf4;line-height:1.7;font-size:15px;
+  margin:0;max-width:470px;
+}
+.pill {
+  display:inline-flex;align-items:center;gap:7px;
+  margin-top:20px;padding:8px 12px;
+  border-radius:30px;background:#ffffff13;
+  border:1px solid #ffffff25;font-size:12px;color:#f2f5ff;
+}
+.dot { width:7px;height:7px;background:#71e3b0;border-radius:50%; }
+main { padding:0 15px 32px;margin-top:-34px;position:relative; }
+.card {
+  background:white;border:1px solid #e8ebf3;
+  border-radius:21px;padding:21px;
+  box-shadow:0 12px 35px #192b5010;margin-bottom:16px;
+}
+.eyebrow {
+  font-size:11px;letter-spacing:1.5px;
+  font-weight:800;color:#73809a;text-transform:uppercase;
+}
+h2 { font-size:22px;letter-spacing:-.5px;margin:8px 0; }
+.sub { color:var(--muted);font-size:13px;line-height:1.6;margin:0 0 19px; }
+.candidate {
+  display:flex;align-items:center;gap:13px;
+  border:1.5px solid var(--line);border-radius:16px;
+  padding:15px;margin:11px 0;cursor:pointer;
+  transition:border-color .2s,background .2s,transform .2s;
+  position:relative;
+}
+.candidate:active { transform:scale(.99); }
+.candidate.selected {
+  border-color:var(--blue);background:#f2f5ff;
+}
+.avatar {
+  width:47px;height:47px;flex-shrink:0;
+  border-radius:15px;background:#eaf0ff;color:#315efb;
+  display:grid;place-items:center;font-size:19px;font-weight:850;
+}
+.candidate:nth-of-type(2) .avatar { background:#fff2db;color:#a76a08; }
+.candidate:nth-of-type(3) .avatar { background:#e5f7ef;color:#16845a; }
+.details { flex:1;min-width:0; }
+.name { font-size:15px;font-weight:800;line-height:1.4; }
+.village { color:var(--muted);font-size:12px;margin-top:5px; }
+.radio {
+  width:21px;height:21px;border-radius:50%;
+  border:2px solid #cbd3e1;display:grid;place-items:center;flex-shrink:0;
+}
+.selected .radio { border-color:var(--blue); }
+.selected .radio:after {
+  content:"";width:11px;height:11px;border-radius:50%;background:var(--blue);
+}
+.primary {
+  display:flex;justify-content:center;align-items:center;gap:9px;
+  width:100%;padding:16px;border:0;border-radius:14px;
+  color:white;background:linear-gradient(110deg,#315efb,#2448d9);
+  font-weight:800;font-size:15px;cursor:pointer;
+  box-shadow:0 7px 17px #315efb30;
+}
+.primary:disabled { opacity:.5;cursor:not-allowed;box-shadow:none; }
+.hint { text-align:center;color:#8490a5;font-size:11px;line-height:1.6;margin:13px 0 0; }
+.notice {
+  font-size:12px;color:#66728a;line-height:1.7;
+  padding:0 5px;margin:18px 0 22px;
+}
+.hidden { display:none!important; }
+.success-icon {
+  width:66px;height:66px;border-radius:22px;
+  display:grid;place-items:center;background:#e2f8ec;
+  color:#128052;font-size:32px;margin-bottom:19px;
+}
+.success-card { border-top:4px solid #27ae78; }
+.success-title { font-size:26px;letter-spacing:-.7px;margin:0 0 9px; }
+.success-text { color:var(--muted);font-size:14px;line-height:1.7;margin:0 0 21px; }
+.vote-summary {
+  border:1px solid #dfe8ff;background:#f5f7ff;
+  padding:15px;border-radius:15px;display:flex;gap:12px;align-items:center;
+}
+.summary-check {
+  width:39px;height:39px;border-radius:12px;background:#dfe8ff;
+  color:#315efb;display:grid;place-items:center;font-weight:900;font-size:20px;
+}
+.summary-name { font-size:15px;font-weight:800; }
+.summary-village { color:var(--muted);font-size:12px;margin-top:4px; }
+.results-title { display:flex;align-items:center;justify-content:space-between;gap:10px; }
+.total-pill {
+  font-size:11px;color:#3153c6;background:#edf1ff;
+  padding:7px 10px;border-radius:20px;white-space:nowrap;font-weight:750;
+}
+.result-row { margin-top:21px; }
+.result-head { display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:9px; }
+.result-head strong { font-weight:750; }
+.result-number { color:#53617a;white-space:nowrap; }
+.track { background:#edf0f6;height:10px;border-radius:20px;overflow:hidden; }
+.bar { height:100%;border-radius:20px;background:linear-gradient(90deg,#315efb,#7190ff);transition:width .6s; }
+.result-row:nth-child(2) .bar { background:linear-gradient(90deg,#e7a634,#f5cb71); }
+.result-row:nth-child(3) .bar { background:linear-gradient(90deg,#169a69,#69d6a5); }
+.share { margin-top:18px;background:#edf1fb;color:#24478f;box-shadow:none; }
+footer { text-align:center;color:#929bb0;font-size:11px;line-height:1.8;padding:4px 20px 30px; }
+#message { color:#b54747;font-size:13px;line-height:1.5;margin-top:12px; }
+@media(max-width:420px) {
+  .hero { padding-top:23px; }
+  .card { padding:17px;border-radius:18px; }
+  .candidate { padding:12px; }
+  .avatar { width:43px;height:43px; }
+}
 </style>
 </head>
 <body>
-<header>
-  <h1>Khilora Community Opinion Poll</h1>
-  <p>Khilora – Khalsa Nagar Gram Panchayat<br>Share your opinion in this community poll</p>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="brand">
+      <div class="brand-icon">✦</div>
+      Community Voice
+    </div>
+    <h1>Your village.<br>Your voice.</h1>
+    <p>Share your opinion in the Khilora–Khalsa Nagar community poll.</p>
+    <div class="pill"><span class="dot"></span> Community opinion poll</div>
+  </div>
 </header>
 
 <main>
-  <div class="notice">
-    <strong>Unofficial community poll</strong><br>
-    This is an independent opinion poll, not an official election or government website. Candidate names and locations are provided by the poll creator and have not been independently verified. This poll is not a secure or verified election.
-  </div>
-
-  <section class="poll" id="pollSection">
+  <section class="card" id="pollCard">
+    <div class="eyebrow">Make your choice</div>
     <h2>Who would you support?</h2>
-    <div id="candidateList">Connecting to the poll…</div>
-    <button id="voteBtn" disabled>Loading poll…</button>
-    <div class="message" id="message" role="status"></div>
+    <p class="sub">Select one candidate below to record your opinion.</p>
+    <div id="candidateList">Loading candidates…</div>
+    <button class="primary" id="voteBtn" disabled>
+      Submit my vote <span>→</span>
+    </button>
+    <div id="message" role="status"></div>
+    <p class="hint">Please choose carefully. You cannot change your vote after submitting it.</p>
   </section>
 
-  <section class="results hidden" id="resultsSection">
-    <h2>Community poll results</h2>
-    <p id="totalVotes">Loading results…</p>
-    <div id="resultsList"></div>
-    <p class="message">These are informal poll responses, not official election results.</p>
-    <button class="secondary" id="shareBtn">Share this poll</button>
+  <section class="card success-card hidden" id="successCard">
+    <div class="success-icon">✓</div>
+    <div class="eyebrow">Vote confirmed</div>
+    <h2 class="success-title">Your voice has been counted!</h2>
+    <p class="success-text">Thank you for taking part. Your vote has been successfully recorded.</p>
+    <div class="vote-summary">
+      <div class="summary-check">✓</div>
+      <div>
+        <div class="eyebrow">You voted for</div>
+        <div class="summary-name" id="votedName">Candidate</div>
+        <div class="summary-village" id="votedVillage">Village</div>
+      </div>
+    </div>
   </section>
+
+  <section class="card hidden" id="resultsCard">
+    <div class="results-title">
+      <div>
+        <div class="eyebrow">Community poll</div>
+        <h2>Poll results</h2>
+      </div>
+      <span class="total-pill" id="totalVotes">0 votes</span>
+    </div>
+    <p class="sub">Here's how the recorded votes are distributed.</p>
+    <div id="resultsList"></div>
+    <p class="hint">Results are informal and are not official election results.</p>
+  </section>
+
+  <div class="notice">
+    <strong>About this poll</strong><br>
+    This is an independent, unofficial community opinion poll. It is not affiliated with the Election Commission or any government authority. Candidate names and village details have not been independently verified. Anonymous accounts cannot guarantee one vote per real person.
+  </div>
 </main>
 
-<footer>Independent community poll · Not affiliated with any government authority</footer>
+<footer>
+  Made for community opinions<br>
+  Independent project · Not an official election website
+</footer>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
@@ -81,45 +250,48 @@ const firebaseConfig = {
 };
 
 const candidates = [
-  { name: "Rehman Khan", village: "Khilora" },
-  { name: "Paramjeet Singh", village: "Khalsa Nagar" },
-  { name: "Kirodi Singh", village: "Chandigarh" }
+  { name:"Rehman Khan", village:"Khilora" },
+  { name:"Paramjeet Singh", village:"Khalsa Nagar" },
+  { name:"Kirodi Singh", village:"Chandigarh" }
 ];
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
-const candidateList = document.getElementById("candidateList");
+const list = document.getElementById("candidateList");
 const voteBtn = document.getElementById("voteBtn");
 const message = document.getElementById("message");
-const resultsSection = document.getElementById("resultsSection");
-const resultsList = document.getElementById("resultsList");
-const totalVotes = document.getElementById("totalVotes");
+const pollCard = document.getElementById("pollCard");
+const successCard = document.getElementById("successCard");
+const resultsCard = document.getElementById("resultsCard");
 
-let currentUser = null;
-let alreadyVoted = false;
-let currentVotes = {};
+let user = null;
+let selectedName = null;
+let votedName = null;
+let votes = {};
+let busy = false;
 
 function showMessage(text) {
   message.textContent = text;
 }
 
 function renderCandidates() {
-  candidateList.replaceChildren();
+  list.replaceChildren();
 
   candidates.forEach((candidate, index) => {
-    const row = document.createElement("div");
-    row.className = "candidate";
+    const card = document.createElement("div");
+    card.className = "candidate";
+    card.tabIndex = 0;
+    card.setAttribute("role", "radio");
+    card.setAttribute("aria-checked", "false");
 
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "candidate";
-    radio.id = "candidate" + index;
-    radio.value = candidate.name;
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.textContent = candidate.name.split(" ").map(n => n[0]).join("").slice(0, 2);
 
-    const label = document.createElement("label");
-    label.htmlFor = radio.id;
+    const details = document.createElement("div");
+    details.className = "details";
 
     const name = document.createElement("div");
     name.className = "name";
@@ -127,40 +299,81 @@ function renderCandidates() {
 
     const village = document.createElement("div");
     village.className = "village";
-    village.textContent = candidate.village;
+    village.textContent = "⌖ " + candidate.village;
 
-    label.append(name, village);
-    row.append(radio, label);
-    candidateList.append(row);
+    const radio = document.createElement("div");
+    radio.className = "radio";
+    radio.setAttribute("aria-hidden", "true");
+
+    details.append(name, village);
+    card.append(avatar, details, radio);
+
+    function selectCandidate() {
+      if (busy || votedName) return;
+      selectedName = candidate.name;
+      document.querySelectorAll(".candidate").forEach(item => {
+        item.classList.remove("selected");
+        item.setAttribute("aria-checked", "false");
+      });
+      card.classList.add("selected");
+      card.setAttribute("aria-checked", "true");
+      voteBtn.disabled = false;
+      showMessage("");
+    }
+
+    card.addEventListener("click", selectCandidate);
+    card.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        selectCandidate();
+      }
+    });
+
+    list.append(card);
   });
 }
 
-function renderResults(votes) {
+function showConfirmation(name) {
+  votedName = name;
+  const candidate = candidates.find(c => c.name === name);
+  if (!candidate) return;
+
+  document.getElementById("votedName").textContent = candidate.name;
+  document.getElementById("votedVillage").textContent = candidate.village;
+
+  pollCard.classList.add("hidden");
+  successCard.classList.remove("hidden");
+  resultsCard.classList.remove("hidden");
+  renderResults();
+}
+
+function renderResults() {
   const counts = candidates.map(candidate => ({
     name: candidate.name,
-    count: Object.values(votes || {}).filter(
-      vote => vote && vote.candidate === candidate.name
-    ).length
+    count: Object.values(votes).filter(v => v && v.candidate === candidate.name).length
   }));
 
-  const total = counts.reduce((sum, item) => sum + item.count, 0);
-  totalVotes.textContent = "Total votes: " + total;
-  resultsList.replaceChildren();
+  const total = counts.reduce((sum, c) => sum + c.count, 0);
+  document.getElementById("totalVotes").textContent = total + (total === 1 ? " vote" : " votes");
 
-  counts.forEach(item => {
-    const percent = total ? Math.round(item.count / total * 100) : 0;
+  const resultList = document.getElementById("resultsList");
+  resultList.replaceChildren();
+
+  counts.forEach(candidate => {
+    const percent = total ? Math.round(candidate.count / total * 100) : 0;
+
     const row = document.createElement("div");
-    row.className = "barrow";
+    row.className = "result-row";
 
     const head = document.createElement("div");
-    head.className = "barhead";
+    head.className = "result-head";
 
     const name = document.createElement("strong");
-    name.textContent = item.name;
+    name.textContent = candidate.name;
 
-    const score = document.createElement("span");
-    score.textContent = item.count + " votes (" + percent + "%)";
-    head.append(name, score);
+    const number = document.createElement("span");
+    number.className = "result-number";
+    number.textContent = candidate.count + " · " + percent + "%";
 
     const track = document.createElement("div");
     track.className = "track";
@@ -169,75 +382,43 @@ function renderResults(votes) {
     bar.className = "bar";
     bar.style.width = percent + "%";
 
+    head.append(name, number);
     track.append(bar);
     row.append(head, track);
-    resultsList.append(row);
+    resultList.append(row);
   });
 }
 
-function showVotedState() {
-  alreadyVoted = true;
-  candidateList.classList.add("hidden");
-  voteBtn.classList.add("hidden");
-  resultsSection.classList.remove("hidden");
-  showMessage("Your vote has been recorded. Thank you!");
-  renderResults(currentVotes);
-}
-
 voteBtn.addEventListener("click", async () => {
-  if (!currentUser || alreadyVoted) return;
+  if (!user || !selectedName || busy || votedName) return;
 
-  const selected = document.querySelector('input[name="candidate"]:checked');
-  if (!selected) {
-    showMessage("Please select a candidate first.");
-    return;
-  }
-
+  busy = true;
   voteBtn.disabled = true;
-  voteBtn.textContent = "Submitting…";
+  voteBtn.textContent = "Recording your vote…";
   showMessage("");
 
   try {
-    const voteRef = ref(db, "votes/" + currentUser.uid);
+    const voteRef = ref(db, "votes/" + user.uid);
     const existing = await get(voteRef);
 
     if (existing.exists()) {
-      showVotedState();
+      showConfirmation(existing.val().candidate);
       return;
     }
 
     await set(voteRef, {
-      candidate: selected.value,
+      candidate: selectedName,
       createdAt: Date.now()
     });
 
-    showVotedState();
+    showConfirmation(selectedName);
   } catch (error) {
-    console.error(error);
-    showMessage("Couldn't submit your vote. Please check your internet and try again.");
+    console.error("Vote submission failed:", error);
+    showMessage("Your vote could not be recorded. Please try again.");
     voteBtn.disabled = false;
-    voteBtn.textContent = "Submit my vote";
-  }
-});
-
-document.getElementById("shareBtn").addEventListener("click", async () => {
-  const shareData = {
-    title: "Khilora Community Opinion Poll",
-    text: "Share your opinion in the Khilora community poll:",
-    url: location.href
-  };
-
-  try {
-    if (navigator.share) {
-      await navigator.share(shareData);
-    } else {
-      await navigator.clipboard.writeText(location.href);
-      showMessage("Poll link copied!");
-    }
-  } catch (error) {
-    if (error.name !== "AbortError") {
-      showMessage("Please copy the website link from your browser.");
-    }
+    voteBtn.innerHTML = 'Try again <span>→</span>';
+  } finally {
+    busy = false;
   }
 });
 
@@ -246,36 +427,29 @@ async function startPoll() {
 
   try {
     const credential = await signInAnonymously(auth);
-    currentUser = credential.user;
+    user = credential.user;
 
-    const ownVote = await get(ref(db, "votes/" + currentUser.uid));
-
-    if (ownVote.exists()) {
-      alreadyVoted = true;
-      candidateList.classList.add("hidden");
-      voteBtn.classList.add("hidden");
-      resultsSection.classList.remove("hidden");
-      showMessage("You've already voted from this browser account.");
-    } else {
-      voteBtn.disabled = false;
-      voteBtn.textContent = "Submit my vote";
-      showMessage("Choose one candidate to submit your vote.");
-    }
+    const ownVote = await get(ref(db, "votes/" + user.uid));
 
     onValue(ref(db, "votes"), snapshot => {
-      currentVotes = snapshot.val() || {};
-      if (alreadyVoted) {
-        renderResults(currentVotes);
-      }
+      votes = snapshot.val() || {};
+      if (votedName) renderResults();
     }, error => {
-      console.error(error);
-      showMessage("Unable to load poll results right now.");
+      console.error("Results listener failed:", error);
+      showMessage("Could not load results right now.");
     });
+
+    if (ownVote.exists()) {
+      showConfirmation(ownVote.val().candidate);
+    } else {
+      voteBtn.disabled = false;
+      showMessage("");
+    }
   } catch (error) {
-    console.error(error);
+    console.error("Firebase connection failed:", error);
     voteBtn.disabled = true;
-    voteBtn.textContent = "Poll unavailable";
-    showMessage("Firebase error: " + error.code + " — " + error.message);
+    voteBtn.textContent = "Poll temporarily unavailable";
+    showMessage("Couldn't connect to the poll. Please refresh and try again.");
   }
 }
 
